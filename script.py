@@ -5,17 +5,6 @@ import matplotlib.pyplot as plt
 ## Challenge: Titanic
 ## Objective: Predict which passengers survived and died in Titanic catastrophe
 
-
-def plot_model(X, Y_train, Y_test, xlabel, title):
-     plt.figure()
-     plt.plot(X, Y_train, label = "Training Accuracy")
-     plt.plot(X, Y_test, label = "Test Accuracy")
-     plt.ylabel("Accuracy")
-     plt.xlabel(xlabel)
-     plt.title(title)
-     plt.legend()
-
-
 path = 'C:/Users/user/Documents/dev/python/challenges/titanic'
 
 train = pd.read_csv(F'{path}/data/train.csv')
@@ -61,19 +50,11 @@ from sklearn.ensemble import RandomForestClassifier
 models.append(RandomForestClassifier(n_estimators = 1000, max_depth = 10, random_state = 1))
 modelsName.append("RF")
 
-# RF Best 100 = 0.7937
-# RF Best 200 = 0.7982
-# RF Best 1000/10 = 0.8340
-
 ################################
 
 from sklearn import svm
 models.append(svm.SVC(max_iter = 1000, random_state = 1, kernel = 'sigmoid'))
 modelsName.append("SVC")
-# SVM Best rbf = 0.7309
-# SVM Best linear = 0.6950
-# SVM Best poly = 0.7219
-# SVM Best sigmoid = 0.6412
 
 ################################
 
@@ -81,33 +62,17 @@ from sklearn.naive_bayes import GaussianNB
 models.append(GaussianNB())
 modelsName.append("Gaussian")
 
-# Gaussian Naive Bayes
-# STD = 0.8206
-
 ################################
 
 from sklearn import tree
 models.append(tree.DecisionTreeClassifier(criterion= 'entropy'))
 modelsName.append("dTree")
 
-# Tree STD = 0.8026
-# Tree Entropy = 0.8116
-
 ################################
 
 from sklearn.neural_network import MLPClassifier
 models.append(MLPClassifier(solver = 'adam', activation='tanh'))
 modelsName.append("MLP")
-
-# MLP STD = 0.7892
-# MLP lbfgs = 0.77
-# MLP lbfgs + logistic = 0.8206
-# MLP lbfgs + identity = 0.7757
-# MLP lbfgs + tanh = 0.8071
-
-# MLP std + identity = 0.7668
-# MLP std + logistic = 0.7847
-# MLP std + tanh = 0.8251
 
 ################################
 
@@ -118,9 +83,6 @@ modelsName.append("MLP")
 from sklearn.neighbors import KNeighborsClassifier
 models.append(KNeighborsClassifier(weights='distance'))
 modelsName.append("KNN")
-
-# KNN STD = 0.7533
-# KNN STD + DISTANCE = 0.7757
 
 ################################
 
@@ -136,23 +98,6 @@ for model in models:
 plt.scatter(modelsName, x, s=60, alpha = 0.5, label = "Performance", c = ["red", "green", "brown", "lime", "black", "blue"] )
 plt.xlabel("Algorithms")
 plt.ylabel("Accuracy")
-     
-#####
-     
-#fig, axs = plt.subplots(2,3, figsize=(15, 6), facecolor='w', edgecolor='k')
-#fig.subplots_adjust(hspace = .8, wspace=.5)
-
-#axs = axs.ravel()
-
-#for model in models:
-#    i=1
-#    axs[i].plot(pd.DataFrame(model.score(val_X, val_y)))
-#    axs[i].set_title("Modelo "+i)
-#    i+=1
-     
-
-############################################
-
 
 
 ###
@@ -192,13 +137,3 @@ for pred in test_preds:
                        'Survived': pred})
      output.to_csv(F'{path}/submissions/submission'+str(np.random.rand())+'.csv', index=False)
      i++
-
-
-output = pd.DataFrame({'PassengerId': test.PassengerId,
-                       'Survived': test_preds})
-
-output.to_csv('submission.csv', index=False)
-
-
-     
-     
